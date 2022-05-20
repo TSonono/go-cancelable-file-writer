@@ -1,5 +1,7 @@
 # go-cancelable-file-writer
 
+[![Go](https://github.com/TSonono/go-cancelable-file-writer/actions/workflows/go.yml/badge.svg)](https://github.com/TSonono/go-cancelable-file-writer/actions/workflows/go.yml)
+
 A Go file writer that can be canceled with a `context.Context`. Particularly
 useful when writing large files and there might be a need for a timeout or
 manual cancel to be able to properly clean up incomplete files.
@@ -25,7 +27,7 @@ if err != nil {
 }
 defer file.Close()
 
-_, err = cancelablefw.CancelableFileWriter(ctx, data, file)
+_, err = cancelablefw.FileWriteWithContext(ctx, data, file)
 if err != nil {
     {
         err := os.Remove("test.txt")

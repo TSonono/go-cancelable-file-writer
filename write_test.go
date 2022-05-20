@@ -33,7 +33,7 @@ func TestWriteFile(t *testing.T) {
 			require.NoError(t, err)
 		}()
 
-		nWrittenBytes, err := CancelableFileWriter(context.TODO(), dummyData, tmpFile)
+		nWrittenBytes, err := FileWriteWithContext(context.TODO(), dummyData, tmpFile)
 		require.NoError(t, err)
 		require.Equal(t, len(dummyData), nWrittenBytes)
 
@@ -50,7 +50,7 @@ func TestWriteFile(t *testing.T) {
 			require.NoError(t, err)
 		}()
 
-		nWrittenBytes, err := CancelableFileWriterSize(context.TODO(), dummyData, tmpFile, 2)
+		nWrittenBytes, err := FileWriteWithContextSize(context.TODO(), dummyData, tmpFile, 2)
 		require.NoError(t, err)
 		require.Equal(t, len(dummyData), nWrittenBytes)
 
@@ -69,7 +69,7 @@ func TestWriteFile(t *testing.T) {
 		}()
 
 		cancel()
-		nWrittenBytes, err := CancelableFileWriter(ctx, dummyData, tmpFile)
+		nWrittenBytes, err := FileWriteWithContext(ctx, dummyData, tmpFile)
 		require.Error(t, err)
 		require.Equal(t, "all data was not written to the file due to context cancellation", err.Error())
 		require.Equal(t, 0, nWrittenBytes)
@@ -91,7 +91,7 @@ func TestWriteFile(t *testing.T) {
 		}()
 
 		dummyData := make([]byte, 100000000)
-		nWrittenBytes, err := CancelableFileWriterSize(ctx, dummyData, tmpFile, 1)
+		nWrittenBytes, err := FileWriteWithContextSize(ctx, dummyData, tmpFile, 1)
 		require.Error(t, err)
 		require.Equal(t, "all data was not written to the file due to context cancellation", err.Error())
 		require.NotEqual(t, 0, nWrittenBytes)

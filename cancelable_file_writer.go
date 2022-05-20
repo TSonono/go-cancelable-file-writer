@@ -11,19 +11,19 @@ const (
 	defaultBufSize = 4096
 )
 
-// CancelableFileWriter writes data to a file in a buffered manner with
+// FileWriteWithContext writes data to a file in a buffered manner with
 // integrated cancellation. Will return an error in case that the file is
 // incompletely written. It is the user's responsibility to clean up a
 // potentially incomplete file
-func CancelableFileWriter(ctx context.Context, data []byte, file *os.File) (nWrittenBytes int, err error) {
-	return CancelableFileWriterSize(ctx, data, file, defaultBufSize)
+func FileWriteWithContext(ctx context.Context, data []byte, file *os.File) (nWrittenBytes int, err error) {
+	return FileWriteWithContextSize(ctx, data, file, defaultBufSize)
 }
 
-// CancelableFileWriterCustomBufferLen writes data to a file in a buffered
+// FileWriteWithContextSize writes data to a file in a buffered
 // manner with integrated cancellation with a custom buffer length. Will
 // return an error in case that the file is incompletely written. It is the
 // user's responsibility to clean up a potentially incomplete file
-func CancelableFileWriterSize(ctx context.Context, data []byte, file *os.File,
+func FileWriteWithContextSize(ctx context.Context, data []byte, file *os.File,
 	bufferLen int) (nWrittenBytes int, err error) {
 	bufferedWriter := bufio.NewWriterSize(file, bufferLen)
 
